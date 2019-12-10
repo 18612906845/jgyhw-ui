@@ -3,5 +3,5 @@
 echo "打包文件"
 yarn build
 echo "传输文件"
-scp -r ./dist/** pig@139.224.200.249:/data/avue/sword
+scp -r ./dist/** root@106.52.181.90:/data/avue/avue-cli2
 echo "部署成功"

@@ -1,17 +1,16 @@
 import { setStore, getStore } from '@/util/store'
 import { diff } from '@/util/util'
-import website from '@/config/website'
+import website from '@/const/website'
 const isFirstPage = website.isFirstPage;
 const tagWel = website.fistPage;
 const tagObj = {
-    label: '', //标题名称
-    value: '', //标题的路径
-    params: '', //标题的路径参数
-    query: '', //标题的参数
-    meta: {},//额外参数
-    group: [], //分组
-}
-//处理首个标签
+        label: '', //标题名称
+        value: '', //标题的路径
+        params: '', //标题的路径参数
+        query: '', //标题的参数
+        group: [], //分组
+    }
+    //处理首个标签
 function setFistTag(list) {
     if (list.length == 1) {
         list[0].close = false;
@@ -57,13 +56,7 @@ const navs = {
             setStore({ name: 'tagList', content: state.tagList, type: 'session' })
         },
         DEL_TAG_OTHER: (state) => {
-            state.tagList = state.tagList.filter(item => {
-                if (item.value === state.tag.value) {
-                    return true;
-                } else if (!website.isFirstPage && item.value === website.fistPage.value) {
-                    return true;
-                }
-            })
+            state.tagList = state.tagList.filter(item => item.value === state.tag.value)
             setFistTag(state.tagList);
             setStore({ name: 'tagList', content: state.tagList, type: 'session' })
         },

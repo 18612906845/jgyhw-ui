@@ -1,49 +1,55 @@
 import request from '@/router/axios';
-import {baseUrl} from '@/config/env';
-
-export const loginByUsername = (tenantId, account, password, type) => request({
-  url: '/api/blade-auth/token',
+export const loginByUsername = (username, password, code, redomStr) => request({
+  url: '/user/login',
   method: 'post',
-  params: {
-    tenantId,
-    account,
+  data: {
+    username,
     password,
-    type
+    code,
+    redomStr
   }
 })
 
-export const getButtons = () => request({
-  url: '/api/blade-system/menu/buttons',
-  method: 'get'
-});
-
 export const getUserInfo = () => request({
-  url: baseUrl + '/user/getUserInfo',
+  url: '/user/getUserInfo',
   method: 'get'
 });
 
-export const refeshToken = () => request({
-  url: baseUrl + '/user/refesh',
+export const RefeshToken = () => request({
+  url: '/user/refesh',
   method: 'post'
 })
 
-export const getMenu = () => request({
-  url: '/api/blade-system/menu/routes',
-  method: 'get'
-});
-
 export const getTopMenu = () => request({
-  url: baseUrl + '/user/getTopMenu',
+  url: '/user/getTopMenu',
   method: 'get'
 });
 
-export const sendLogs = (list) => request({
-  url: baseUrl + '/user/logout',
-  method: 'post',
-  data: list
-})
+export const getMenu = (type = 0) => request({
+  url: '/user/getMenu',
+  method: 'get',
+  data: {
+    type
+  }
+});
+
+export const getMenuAll = () => request({
+  url: '/user/getMenu',
+  method: 'get',
+  data: {
+    type: 0
+  }
+});
+
+export const getTableData = (page) => request({
+  url: '/user/getTable',
+  method: 'get',
+  data: {
+    page
+  }
+});
 
 export const logout = () => request({
-  url: baseUrl + '/user/logout',
+  url: '/user/logout',
   method: 'get'
 })

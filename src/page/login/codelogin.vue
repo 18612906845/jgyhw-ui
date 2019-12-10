@@ -10,7 +10,7 @@
                 @keyup.enter.native="handleLogin"
                 v-model="loginForm.phone"
                 auto-complete="off"
-                :placeholder="$t('login.phone')">
+                placeholder="请输入手机号码">
         <i slot="prefix"
            class="icon-shouji"></i>
       </el-input>
@@ -20,7 +20,7 @@
                 @keyup.enter.native="handleLogin"
                 v-model="loginForm.code"
                 auto-complete="off"
-                :placeholder="$t('login.code')">
+                placeholder="请输入验证码">
         <i slot="prefix"
            class="icon-yanzhengma"
            style="margin-top:6px;"></i>
@@ -35,17 +35,21 @@
       <el-button size="small"
                  type="primary"
                  @click.native.prevent="handleLogin"
-                 class="login-submit">{{$t('login.submit')}}</el-button>
+                 class="login-submit">登录</el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script>
+const MSGINIT = "发送验证码",
+  // MSGERROR = "验证码发送失败",
+  MSGSCUCCESS = "${time}秒后重发",
+  MSGTIME = 60;
 import { isvalidatemobile } from "@/util/validate";
 import { mapGetters } from "vuex";
 export default {
   name: "codelogin",
-  data() {
+  data () {
     const validatePhone = (rule, value, callback) => {
       if (isvalidatemobile(value)[0]) {
         callback(new Error(isvalidatemobile(value)[1]));
@@ -61,11 +65,11 @@ export default {
       }
     };
     return {
-      msgText: "",
-      msgTime: "",
+      msgText: MSGINIT,
+      msgTime: MSGTIME,
       msgKey: false,
       loginForm: {
-        phone: "",
+        phone: "17547400800",
         code: ""
       },
       loginRules: {
@@ -74,39 +78,29 @@ export default {
       }
     };
   },
-  created() {
-    this.msgText = this.config.MSGINIT;
-    this.msgTime = this.config.MSGTIME;
-  },
-  mounted() {},
+  created () { },
+  mounted () { },
   computed: {
-    ...mapGetters(["tagWel"]),
-    config() {
-      return {
-        MSGINIT: this.$t("login.msgText"),
-        MSGSCUCCESS: this.$t("login.msgSuccess"),
-        MSGTIME: 60
-      };
-    }
+    ...mapGetters(["tagWel"])
   },
   props: [],
   methods: {
-    handleSend() {
+    handleSend () {
       if (this.msgKey) return;
-      this.msgText = this.msgTime + this.config.MSGSCUCCESS;
+      this.msgText = MSGSCUCCESS.replace("${time}", this.msgTime);
       this.msgKey = true;
       const time = setInterval(() => {
         this.msgTime--;
-        this.msgText = this.msgTime + this.config.MSGSCUCCESS;
+        this.msgText = MSGSCUCCESS.replace("${time}", this.msgTime);
         if (this.msgTime == 0) {
-          this.msgTime = this.config.MSGTIME;
-          this.msgText = this.config.MSGINIT;
+          this.msgTime = MSGTIME;
+          this.msgText = MSGINIT;
           this.msgKey = false;
           clearInterval(time);
         }
       }, 1000);
     },
-    handleLogin() {
+    handleLogin () {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.$store.dispatch("LoginByPhone", this.loginForm).then(() => {

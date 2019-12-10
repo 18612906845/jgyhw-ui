@@ -4,19 +4,13 @@
       <span v-if="keyCollapse"
             class="avue-logo_subtitle"
             key="0">
-        <img src="img/bg/img-logo.png"
-             width="30" />
+        {{website.logo}}
       </span>
     </transition>
     <transition-group name="fade">
       <template v-if="!keyCollapse">
         <span class="avue-logo_title"
-              key="1">
-          <div>
-            <img src="img/bg/img-logo.png"
-                 width="30"
-                 alt="">{{website.indexTitle}}</div>
-        </span>
+              key="1">{{website.indexTitle}} </span>
       </template>
     </transition-group>
   </div>
@@ -26,12 +20,13 @@
 import { mapGetters } from "vuex";
 export default {
   name: "logo",
-  data() {
+  data () {
     return {};
   },
-  created() {},
+  created () {
+  },
   computed: {
-    ...mapGetters(["website", "keyCollapse"])
+    ...mapGetters(["website", 'keyCollapse'])
   },
   methods: {}
 };
@@ -52,9 +47,9 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  width: 240px;
-  height: 64px;
-  line-height: 64px;
+  width: 220px;
+  height: 50px;
+  line-height: 50px;
   background-color: #20222a;
   font-size: 20px;
   overflow: hidden;
@@ -67,18 +62,8 @@ export default {
     text-align: center;
     font-weight: 300;
     font-size: 16px;
-    div {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      img {
-        margin-right: 5px;
-      }
-    }
   }
   &_subtitle {
-    padding-top: 10px;
     display: block;
     text-align: center;
     font-size: 18px;
